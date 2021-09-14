@@ -10,14 +10,16 @@ from docx2pdf import convert
 from docx.shared import Pt, RGBColor,Inches
 from docx.oxml.ns import qn
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-import os
+from Dynamic_Title import random_string,make_title,make_title_format
 # Provide the Folder path where you want to save the files
 output = Path('H:\max') # Important
-File_name = 'Test'
+File_name = make_title_format(title='bercelona-psg-live')
+File_name = make_title(File_name,count=1)
 heading_text = "[ONLINE] UNLV vs Eastern Washington Live Stream NCAA Collage Football 02 September 2021 Full HD Coverage."
 after_heading_text = "Welcome To Watch UNLV vs. Eastern Washington: How to live stream, TV channel, start time for Thursday's NCAA Football game. How to watch UNLV vs. Eastern Washington football game"
-link_text = 'https://www.youtube.com/'
 image_location = '#2-Docs2PDF\index.jpg'
+Url_Text = 'Click Here TO Watch Live'
+Url = 'https://www.youtube.com/'
 
 description_text = '''Watch UNLV vs. Eastern Washington: How to live stream, TV channel, start time for Thursday's NCAA Football game
 How to watch UNLV vs. Eastern Washington football game
@@ -87,8 +89,8 @@ pdf_file_location = Path(output_directory_pdf, File_name+'.pdf')
 doc = Document()
 
 def writedocx(content, font_name = 'Times New Roman', font_size = 12, font_bold = False, font_italic = False, font_underline = False, color = RGBColor(0, 0, 0),
-              before_spacing = 5, after_spacing = 5, line_spacing = 1.5, keep_together = True, keep_with_next = False, page_break_before = False,
-              widow_control = False, align = 'left', style = ''):
+              before_spacing = 0, after_spacing = 0,
+              align = 'left', style = ''):
     paragraph = doc.add_paragraph(str(content))
     paragraph.style = doc.styles.add_style(style, WD_STYLE_TYPE.PARAGRAPH)
     font = paragraph.style.font
@@ -101,11 +103,11 @@ def writedocx(content, font_name = 'Times New Roman', font_size = 12, font_bold 
     paragraph_format = paragraph.paragraph_format
     paragraph_format.space_before = Pt(before_spacing)
     paragraph_format.space_after = Pt(after_spacing)
-    paragraph.line_spacing = line_spacing
-    paragraph_format.keep_together = keep_together
-    paragraph_format.keep_with_next = keep_with_next
-    paragraph_format.page_break_before = page_break_before
-    paragraph_format.widow_control = widow_control
+    # paragraph.line_spacing = line_spacing
+    # paragraph_format.keep_together = keep_together
+    # paragraph_format.keep_with_next = keep_with_next
+    # paragraph_format.page_break_before = page_break_before
+    # paragraph_format.widow_control = widow_control
     if align.lower() == 'left':
         paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
     elif align.lower() == 'center':
@@ -153,12 +155,17 @@ def add_hyperlink(paragraph, text, url):
 
 
 # heading = doc.add_paragraph().add_run(heading_text, style='headingStyle').bold = True
-heading = writedocx(heading_text,font_bold=True,font_size=26,align='center',style='headStyle')
-after_heading = writedocx(after_heading_text,font_bold=True,align='center',font_size=12,style='after_headStyle')
+heading = writedocx(heading_text,font_bold=True,font_size=24,align='center',style='headStyle',after_spacing=10,font_name='Cambria')
+after_heading = writedocx(after_heading_text,font_bold=True,align='center',font_size=12,style='after_headStyle',after_spacing=20,font_name='Calibri')
+url = add_hyperlink(writedocx('',font_bold=True,align='center',font_size=15,after_spacing=10,style='url1'), Url_Text, Url)
+
+image = writedocx('',font_bold=True,align='center',font_size=12,style='image_textStyle',after_spacing=10)
+
+url = add_hyperlink(writedocx('',font_bold=True,align='center',font_size=15,after_spacing=20), Url_Text, Url)
+
 description = writedocx(description_text,font_bold=True,align='center',font_size=12,style='descStyle')
 
-after_heading.add_run().add_picture(image_location,width=Inches(6.0), height=Inches(3))
-
+image.add_run().add_picture(image_location,width=Inches(6.0), height=Inches(4.5))
 
 doc.save(docx_file_location)
 
