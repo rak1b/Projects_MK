@@ -7,6 +7,9 @@ from docx.shared import RGBColor
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.dml import MSO_THEME_COLOR_INDEX
 from docx2pdf import convert
+from docx.shared import Pt, RGBColor,Inches
+from docx.oxml.ns import qn
+from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
 import os
 # Provide the Folder path where you want to save the files
 output = Path('H:\max') # Important
@@ -14,8 +17,9 @@ File_name = 'Test'
 heading_text = "[ONLINE] UNLV vs Eastern Washington Live Stream NCAA Collage Football 02 September 2021 Full HD Coverage."
 after_heading_text = "Welcome To Watch UNLV vs. Eastern Washington: How to live stream, TV channel, start time for Thursday's NCAA Football game. How to watch UNLV vs. Eastern Washington football game"
 link_text = 'https://www.youtube.com/'
+image_location = '#2-Docs2PDF\index.jpg'
 
-description_text = ''''Watch UNLV vs. Eastern Washington: How to live stream, TV channel, start time for Thursday's NCAA Football game
+description_text = '''Watch UNLV vs. Eastern Washington: How to live stream, TV channel, start time for Thursday's NCAA Football game
 How to watch UNLV vs. Eastern Washington football game
 Who's Playing
 Eastern Washington @ UNLV
@@ -82,13 +86,39 @@ pdf_file_location = Path(output_directory_pdf, File_name+'.pdf')
 
 doc = Document()
 
+def writedocx(content, font_name = 'Times New Roman', font_size = 12, font_bold = False, font_italic = False, font_underline = False, color = RGBColor(0, 0, 0),
+              before_spacing = 5, after_spacing = 5, line_spacing = 1.5, keep_together = True, keep_with_next = False, page_break_before = False,
+              widow_control = False, align = 'left', style = ''):
+    paragraph = doc.add_paragraph(str(content))
+    paragraph.style = doc.styles.add_style(style, WD_STYLE_TYPE.PARAGRAPH)
+    font = paragraph.style.font
+    font.name = font_name
+    font.size = Pt(font_size)
+    font.bold = font_bold
+    font.italic = font_italic
+    font.underline = font_underline
+    font.color.rgb = color
+    paragraph_format = paragraph.paragraph_format
+    paragraph_format.space_before = Pt(before_spacing)
+    paragraph_format.space_after = Pt(after_spacing)
+    paragraph.line_spacing = line_spacing
+    paragraph_format.keep_together = keep_together
+    paragraph_format.keep_with_next = keep_with_next
+    paragraph_format.page_break_before = page_break_before
+    paragraph_format.widow_control = widow_control
+    if align.lower() == 'left':
+        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+    elif align.lower() == 'center':
+        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.CENTER
+    elif align.lower() == 'right':
+        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+    elif align.lower() == 'justify':
+        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY
+    else:
+        paragraph.alignment = WD_PARAGRAPH_ALIGNMENT.LEFT
+    return paragraph
 
-def make_style(doc, style_name, font_size, font_name):
-    font_styles = doc.styles
-    font_charstyle = font_styles.add_style(style_name, WD_STYLE_TYPE.CHARACTER)
-    font_object = font_charstyle.font
-    font_object.size = Pt(font_size)
-    font_object.name = font_name
+
 
 
 def add_hyperlink(paragraph, text, url):
@@ -122,23 +152,12 @@ def add_hyperlink(paragraph, text, url):
     return hyperlink
 
 
-make_style(doc, 'headingStyle', 26, 'Cambria')
-make_style(doc, 'afterheadingStyle', 12, 'Calibri')
-heading = doc.add_paragraph().add_run(heading_text, style='headingStyle').bold = True
+# heading = doc.add_paragraph().add_run(heading_text, style='headingStyle').bold = True
+heading = writedocx(heading_text,font_bold=True,font_size=26,align='center',style='headStyle')
+after_heading = writedocx(after_heading_text,font_bold=True,align='center',font_size=12,style='after_headStyle')
+description = writedocx(description_text,font_bold=True,align='center',font_size=12,style='descStyle')
 
-after_heading = doc.add_paragraph().add_run(after_heading_text, style='afterheadingStyle').bold = True
-link = doc.add_paragraph().add_run(link_text, style='afterheadingStyle').bold = True
-description = doc.add_paragraph(description_text)
-# description = doc.add_paragraph().add_run(description_text, style='afterheadingStyle').bold = True
-
-# from docx.enum.text import WD_ALIGN_PARAGRAPH
-
-# description.alignment = WD_ALIGN_PARAGRAPH.CENTER
-# 0 for left, 1 for center, 2 for right
-# heading.alignment = 1
-# after_heading.alignment = 1
-# link.alignment = 1
-description.alignment = 1
+after_heading.add_run().add_picture(image_location,width=Inches(6.0), height=Inches(3))
 
 
 doc.save(docx_file_location)
