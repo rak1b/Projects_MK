@@ -41,23 +41,25 @@ Teams = {
         'LINK' : 'https://source.unsplash.com',
         'LINK_TEXT':"WATCH HERE ▶️▶️"
     },
-    # 2:{
-    #     'TeamA':'PSG',
-    #     'TeamB':'Bercelona'
-    # }
+    2:{
+        'TeamA':'PSG',
+        'TeamB':'Bercelona',
+        'LINK' : 'https://source.unsplash.com',
+        'LINK_TEXT':"WATCH HERE ▶️▶️"
+    }
 }
 
 titles = {
     1: '[HD] [TeamA] vs [TeamB] Live Stream',
-    # 2: '[ONLINE] [TeamB] vs [TeamA] Live Stream',
-    # 3: '[NCAA] [TeamA] vs [TeamB] Live Online',
-    # 4: '[WATCH] [TeamB] vs [TeamA] Live Online',
-    # 5: '[LIVE] [TeamA] vs [TeamB] Live Free',
-    # 6: '[ITV] [TeamB] vs [TeamA] Live Free',
-    # 7: '[STREAMING] [TeamA] vs [TeamB] Live',
-    # 8: '[FREE]>>> [TeamB] vs [TeamA] Live',
-    # 9: '[HDQ] [TeamA] vs [TeamB] 2021 Live',
-    # 10: '[GAME]>>> [TeamB] vs [TeamA] 2021 Live',
+    2: '[ONLINE] [TeamB] vs [TeamA] Live Stream',
+    3: '[NCAA] [TeamA] vs [TeamB] Live Online',
+    4: '[WATCH] [TeamB] vs [TeamA] Live Online',
+    5: '[LIVE] [TeamA] vs [TeamB] Live Free',
+    6: '[ITV] [TeamB] vs [TeamA] Live Free',
+    7: '[STREAMING] [TeamA] vs [TeamB] Live',
+    8: '[FREE]>>> [TeamB] vs [TeamA] Live',
+    9: '[HDQ] [TeamA] vs [TeamB] 2021 Live',
+    10: '[GAME]>>> [TeamB] vs [TeamA] 2021 Live',
 }
 
 
@@ -89,6 +91,7 @@ That's Will Brinson, highlightingddkfkfdkdfdf Buffalo's defense as a big reason 
 [TeamA] vs [TeamB] Live kick-off time, TV channel, live stream info and team news
 [TeamA] vs [TeamB] Live free live stream and how to watch the NFL Week 2
 Live NFL Week 2: [TeamA] vs [TeamB] Live as McKenzie earns rare start at 10
+[LINK]
 Lavonte David was fined for this non-called penalty so the [TeamA] vs [TeamB] Live will feel like justice has been served, but this potentially swung the game (obviously we are using some hindsight to come to that conclusion). How is that fair?
 4. A quick note regarding the “third-and-long” measure as a litmus test for the franchise-iness of a quarterback: In 2019, the Cowboys led the [TeamA] vs [TeamB] Live in third-and-6+ conversion rate (34.5%). In 2020, with Dak Prescott missing two thirds of the season, they fell to dead last (18.8%). In last Thursday’s opener, they went a respectable 2-for-6 (33.3%) against the Bucs.
 Potential fits likely dwindled based on Sherman [TeamA] being charged in July with five misdemeanors of driving under the i[TeamA] vs [TeamB] Liveuence, reckless endangerment of roadway workers, criminal trespass in the second degree (domestic violence designation), resisting arrest and malicious mischief in the third degree (domestic violence designation). 
@@ -141,9 +144,6 @@ def EventPost(contact_person,email,phone,title,description,price,location):
     _title = driver.find_element_by_id("post_title").send_keys(title)
     _price = driver.find_element_by_id("adverts_price").send_keys(price)
     _location = driver.find_element_by_id("adverts_location").send_keys(location)
-    # description = driver.execute_script(f'tinyMCE.activeEditor.setContent(`{description}`)')
-    # pc.copy(description)
-    # _description_tiny.send_keys(Keys.CONTROL, 'v')  #because it takes a long time with send keys()
     description = driver.execute_script(f'tinyMCE.activeEditor.setContent(`{description}`)')
     
     _submit = driver.find_element_by_name('submit').click()
@@ -170,24 +170,11 @@ try:
                     count+=1
                     file.write(text)
                     print(f"{count} Post Completed")
-                    print("Time Taken : %s seconds ---" % (time.time() - start_time))
-                    if count>1:break
-                if count>1:break
-            if count>1:break
         file.close()
     
-    # with(open(linksFile,'w',encoding='utf-8'))as file:
-    #     for team in Teams.values():
-    #         for title in titles.values():
-    #             title = replace_string(title,'[TeamA]',team['TeamA'],'[TeamB]',team['TeamB'])
-    #             for description in descriptions.values():
-    #                 description = replace_string(description,'[TeamA]',team['TeamA'],'[TeamB]',team['TeamB'])
-    #                 event_url = EventPost(contact_person,email,phone,title,description,price,location)
-    #                 text = f'{event_url}\n'
-    #                 file.write(text)
-    #     file.close()
 
-    print("Time Taken : %s seconds ---" % (time.time() - start_time))
+
+    print("Total Time Taken : %s seconds" % (time.time() - start_time))
     time.sleep(10)
     driver.quit()
     
