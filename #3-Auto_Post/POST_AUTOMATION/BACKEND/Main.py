@@ -11,7 +11,7 @@ from POST_AUTOMATION.ADVERT.Data import Data as Ad_data
 from POST_AUTOMATION.BACKEND.basicOperations import BasePage
 from POST_AUTOMATION.BACKEND.DriverControl import DriverControl as DC
 from pathlib import Path
-from POST_AUTOMATION.BACKEND.Locators.AdvertLocator import Locator
+from POST_AUTOMATION.BACKEND.Locators.AdvertLocator import Locator as Ad_Locator
 
 path = Path(__file__).parent.resolve()
 
@@ -33,9 +33,32 @@ class Main(BasePage):
         except:
             print('Already logged in!')
 
-    @classmethod
-    def visit_advert_pages(cls):
-        DC.enter_text((By.ID,Locator.contact_id),Ad_data.CONTACT_PERSON)
+class Visit_advert_pages():
 
-# (By.XPATH, "//p[@id='']")
-Main.visit_advert_pages()
+    @staticmethod
+    def first_page():
+        DC.goto(Ad_data.BASE_URL)
+        DC.enter_text(Ad_Locator.CONTACT, Ad_data.CONTACT_PERSON)
+        DC.enter_text(Ad_Locator.EMAIL, Ad_data.EMAIL)
+        DC.enter_text(Ad_Locator.TITLE, Ad_data.TITLES[1])
+        DC.js_description_post(Ad_data.DESCRIPTION[2])
+        DC.click(Ad_Locator.PREVIEW)
+        # Ad_Locator.MakeTitleLink(Ad_data.TITLES[1])
+    @staticmethod
+    def second_page():
+        DC.click(Ad_Locator.PUBLISH_LISTING)
+
+    @staticmethod
+    def third_page():
+        # DC.click(Ad_Locator.TITLE_LINK)
+        current_link = DC.Get_link_href(Ad_Locator.TITLE_LINK)
+        # return DC.driver.current_url
+        return  current_link
+
+
+
+
+Visit_advert_pages.first_page()
+Visit_advert_pages.second_page()
+print(Visit_advert_pages.third_page())
+DC.stop_driver()

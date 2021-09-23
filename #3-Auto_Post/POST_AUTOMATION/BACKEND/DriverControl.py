@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 path = Path(__file__).parent.resolve()
 import traceback
 start_time = time.time()
-
+from selenium.webdriver.common.by import By
 class DriverControl():
     options = Options()
     prefs = {"profile.managed_default_content_settings.images": Data.IMAGE}
@@ -24,12 +24,18 @@ class DriverControl():
         cls.driver.close()
         cls.driver.quit()
 
-    @classmethod
-    def goto(self,url=Data.BASE_URL):
-        self.driver.get(url)
+    @staticmethod
+    def goto(url):
+        DriverControl.driver.get(url)
 
-    def click(self, by_locator):
-        WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).click()
+    @staticmethod
+    def click(by_locator):
+        try:
+            WebDriverWait(DriverControl.driver, 10).until(EC.element_to_be_clickable(by_locator)).click()
+        except:
+            pass
+            traceback.print_exc()
+
 
         # this function asserts comparison of a web element's text with passed in text.
 
@@ -37,10 +43,14 @@ class DriverControl():
         web_element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
         assert web_element.text == element_text
 
+    @staticmethod
+    def Get_link_href(by_locator):
+        for a in DriverControl.driver.find_elements(By.XPATH,"(//p//a)[1]"):
+            return a.get_attribute('href')
         # this function performs text entry of the passed in text, in a web element whose locator is passed to it.
-
-    def enter_text(self, by_locator, text):
-        return WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator)).send_keys(text)
+    @staticmethod
+    def enter_text(by_locator, text):
+        return WebDriverWait(DriverControl.driver, 10).until(EC.visibility_of_element_located(by_locator)).send_keys(text)
 
         # this function checks if the web element whose locator has been passed to it, is enabled or not and returns
         # web element if it is enabled.
@@ -54,6 +64,11 @@ class DriverControl():
     def is_visible(self, by_locator):
         element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
         return bool(element)
+
+    @staticmethod
+    def js_description_post(description):
+        description = DriverControl.driver.execute_script(f'tinyMCE.activeEditor.setContent(`{description}`)')
+
 
 
 
