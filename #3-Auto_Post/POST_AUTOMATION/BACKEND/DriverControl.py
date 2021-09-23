@@ -30,18 +30,25 @@ class DriverControl():
 
     @staticmethod
     def click(by_locator):
-        try:
-            WebDriverWait(DriverControl.driver, 10).until(EC.element_to_be_clickable(by_locator)).click()
-        except:
-            pass
-            traceback.print_exc()
+        WebDriverWait(DriverControl.driver, 10).until(EC.element_to_be_clickable(by_locator)).click()
 
-
+    @staticmethod
+    def click_2(by_locator,time):
+        WebDriverWait(DriverControl.driver, time).until(EC.element_to_be_clickable(by_locator)).click()
+    @staticmethod
+    def click_js(xpath):
+        element = DriverControl.driver.find_element_by_xpath(xpath)
+        DriverControl.driver.execute_script("arguments[0].click();", element)
         # this function asserts comparison of a web element's text with passed in text.
 
     def assert_element_text(self, by_locator, element_text):
         web_element = WebDriverWait(self.driver, 10).until(EC.visibility_of_element_located(by_locator))
         assert web_element.text == element_text
+
+    @staticmethod
+    def NextUrlChanges():
+        WebDriverWait(DriverControl.driver, 15).until(EC.url_changes(DriverControl.driver.current_url))
+        return DriverControl.driver.current_url
 
     @staticmethod
     def Get_link_href(by_locator):
