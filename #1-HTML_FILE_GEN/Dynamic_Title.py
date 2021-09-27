@@ -6,6 +6,9 @@ import re
 def random_string(no_of_string):
     return ''.join(random.choice(string.ascii_uppercase )for i in range(int(no_of_string)))
 
+print(random_string(1))
+print(random_string(1))
+print(random_string(1))
 def make_title_format(title,TeamA,TeamB):
     while(1):
         print(f"Current Title : {title}")
