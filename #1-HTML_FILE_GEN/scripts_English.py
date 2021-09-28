@@ -248,6 +248,7 @@ description_end_list = [
 
 
 description= '''[FIRST_LINE]
+[TeamA] [TeamB]
 consectetur adipisicing elit. Quis molestiae reiciendis 
 nemo, commodi aspernatur natus laudantium ullam inventore itaque a quas, excepturi nam nesciunt nequ
 e tenetur non eum accusamus incidunt distinctio cupiditate temporibus tempore nisi voluptatum volupta
@@ -283,13 +284,17 @@ def make_title(title, count):
             title = title.replace(f'[{check_randomLD[num]}]', random_string(False,check_randomLD[num][8]),1)
 
     return title
-def make_description(description):
+def make_description(description,teamA,teamB):
     if '[FIRST_LINE]' in description:
         description = description.replace('[FIRST_LINE]',random.choice(description_first_list),1)
     if '[LAST_LINE]' in description:
         description = description.replace('[LAST_LINE]',random.choice(description_end_list),1)
     if '[MIDDLE_LINE]' in description:
         description = description.replace('[MIDDLE_LINE]',random.choice(description_end_list),1)
+    if '[TeamA]' in description:
+        description = description.replace('[TeamA]',teamA)
+    if '[TeamB]' in description:
+        description = description.replace('[TeamB]',teamB)
     return description
 
 
@@ -322,7 +327,7 @@ for team_no in range(1, len(TeamInfo) + 1):
     title = f"{TeamA} {middle_text_between_team} {TeamB}"
     for i in range(1, len(youtube_link) + 1):
         title_tail = random.choice(title_tail_list)
-        newdescription = make_description(description)
+        newdescription = make_description(description,TeamA,TeamB)
 
         content = '''\
     
