@@ -226,6 +226,45 @@ TeamInfo = {
         
     },
 }
+description_first_list = [
+    'First line 1',
+    'First line 2',
+    'First line 3',
+    'First line 4',
+    'First line 5',
+]
+
+description_middle_list = [
+    'MIDDLE line 1',
+    'MIDDLE line 2',
+    'MIDDLE line 3',
+    'MIDDLE line 4',
+    'MIDDLE line 5',
+]
+
+description_end_list = [
+    'end line 1',
+    'end line 2',
+    'end line 3',
+    'end line 4',
+    'end line 5',
+]
+
+
+
+description= '''[FIRST_LINE]
+consectetur adipisicing elit. Quis molestiae reiciendis 
+nemo, commodi aspernatur natus laudantium ullam inventore itaque a quas, excepturi nam nesciunt nequ
+e tenetur non eum accusamus incidunt distinctio cupiditate temporibus tempore nisi voluptatum volupta
+s? Esse voluptatum incidunt ea
+[MIDDLE_LINE]
+recusandae earum similique dolore, expedita molestias minus corrupti 
+voluptatem, eaque non explicabo error inventore quas et ex debitis reiciendis. Explicabo fugiat dist
+inctio hic dignissimos perferendis quas nemo nisi obcaecati, neque assumenda, aspernatur adipisci eum
+mollitia labore eos quod odio saepe. Ipsum, perferendis deleniti consequuntur molestias eveniet quisqu
+am, enim mollitia pariatur neque quos suscipit laborum reiciendis id nisi sunt repellat.
+[LAST_LINE]
+'''
 
 def random_string(onlyString, no_of_string):
     if onlyString:
@@ -250,6 +289,15 @@ def make_title(title, count):
 
     return title
 
+
+def make_description(description):
+    if '[FIRST_LINE]' in description:
+        description = description.replace('[FIRST_LINE]',random.choice(description_first_list),1)
+    if '[LAST_LINE]' in description:
+        description = description.replace('[LAST_LINE]',random.choice(description_end_list),1)
+    if '[MIDDLE_LINE]' in description:
+        description = description.replace('[MIDDLE_LINE]',random.choice(description_end_list),1)
+    return description
 
 
 
@@ -277,10 +325,11 @@ for team_no in range(1, len(TeamInfo)+1):
     
     redirect_link = TeamInfo[team_no]['redirect_url']
     youtube_link = TeamInfo[team_no]['youtube_url']
-    description = TeamInfo[team_no]['description']
     title = f"{TeamA}{middle_text_between_team}{TeamB}"
     for i in range(1, len(youtube_link)+1):
         title_tail = random.choice(title_tail_list)
+        newdescription = make_description(description)
+
 
         content = '''\
        
@@ -305,7 +354,7 @@ for team_no in range(1, len(TeamInfo)+1):
 {description}
 </div></body>
 
-</html>'''.format(title=title, title_tail=title_tail, TeamA=TeamA, TeamB=TeamB, redirect_url=redirect_link, youtube_url=youtube_link[i],description=description,rand_num = ''.join(random.choice(numbers) for i in range(4)),livestream = random.choice(livestream_word_list),middle_text_between_team=middle_text_between_team)
+</html>'''.format(title=title, title_tail=title_tail, TeamA=TeamA, TeamB=TeamB, redirect_url=redirect_link, youtube_url=youtube_link[i],description=newdescription,rand_num = ''.join(random.choice(numbers) for i in range(4)),livestream = random.choice(livestream_word_list),middle_text_between_team=middle_text_between_team)
 
         
         additional_extension = ''.join(
