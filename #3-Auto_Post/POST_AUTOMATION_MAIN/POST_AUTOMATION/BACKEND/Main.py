@@ -128,10 +128,11 @@ class NationBuilder():
     def CheckLogin():
         try:
             DC.goto(Na_data.BASE_URL)
-            DC.enter_text(Na_Locator.EMAIL,Na_data.EMAIL,2)
-            DC.enter_text(Na_Locator.PASSWORD,Na_data.PASSWORD,2)
-            DC.click2(Na_Locator.LOGIN_BUTTON,3)
+            DC.enter_text(Na_Locator.EMAIL,Na_data.EMAIL,4)
+            DC.enter_text(Na_Locator.PASSWORD,Na_data.PASSWORD,4)
+            DC.click(Na_Locator.LOGIN_BUTTON,4)
         except:
+            traceback.print_exc()
             print("Allready Logged in")
             print('----OR----')
             print("Provide the Login url")

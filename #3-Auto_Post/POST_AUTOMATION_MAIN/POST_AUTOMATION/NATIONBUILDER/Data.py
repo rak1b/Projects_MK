@@ -3,12 +3,8 @@ class Na_data:
     CHROME_EXECUTABLE_PATH = r'C:\chromedriver\chromedriver.exe'
     CHROME_PROFILE = 'C:\\Users\\rak13\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1'
     LINKS_FILE_NAME = 'linksFile.txt'
-    # BASE_URL = "https://www.okgrassrootsproject.com/users/event_pages/new?parent_id=6"
-    # BASE_URL = "https://www.nyhcampaign.org/users/event_pages/new?parent_id=3817"
-    BASE_URL = "https://www.parti-socialiste.fr/users/event_pages/new?parent_id=3302"
-
-    # EMAIL = 'mehaan.jaiden@acelap.com'
-    EMAIL = 'brisen.montrey@acelap.com'
+    BASE_URL = "https://www.keliiakina.com/users/event_pages/new?parent_id=150"
+    EMAIL = 'hendry.daelen@acelap.com'
     PASSWORD = 'Rakibrk11'
     NAME = 'James'
     VENUE = 'venue'
@@ -35,10 +31,10 @@ class Na_data:
 
     TITLES = {
         1: '[HD] [TeamA] vs [TeamB] Live Stream',
-        # 2: '[ONLINE] [TeamB] vs [TeamA] Live Stream',
-        # 3: '[NCAA] [TeamA] vs [TeamB] Live Online',
-        # 4: '[WATCH] [TeamB] vs [TeamA] Live Online',
-        # 5: '[LIVE] [TeamA] vs [TeamB] Live Free',
+        2: '[ONLINE] [TeamB] vs [TeamA] Live Stream',
+        3: '[NCAA] [TeamA] vs [TeamB] Live Online',
+        4: '[WATCH] [TeamB] vs [TeamA] Live Online',
+        5: '[LIVE] [TeamA] vs [TeamB] Live Free',
         # 6: '[ITV] [TeamB] vs [TeamA] Live Free',
         # 7: '[STREAMING] [TeamA] vs [TeamB] Live',
         # 8: '[FREE]>>> [TeamB] vs [TeamA] Live',
@@ -50,10 +46,11 @@ class Na_data:
         1: f'''<h5>[TeamA] vs [TeamB] 2 Live kick-off time, TV channel, live stream info and team ne</h5>
 <h6>[TeamA] vs [TeamB] Live free live stream and how to watch the NFL Week</h6>
 <h6>Live NFL Week 2: [TeamA] vs [TeamB] Live as McKenzie earns rare start at <h5>
+<br>
 <h1><a href=[LINK]>[LINK_TEXT]</a></h1>
-
-
+<br>
 <a href=[LINK]><img width='800' height="500"  src='https://source.unsplash.com/900x900/?Football'></a>
+<br>
 <h1 ><a href=[LINK]>[LINK_TEXT]</a></h1>
 
 

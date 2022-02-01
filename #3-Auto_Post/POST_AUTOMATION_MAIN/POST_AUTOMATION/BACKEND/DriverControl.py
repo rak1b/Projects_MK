@@ -30,8 +30,8 @@ class DriverControl():
         DriverControl.driver.get(url)
 
     @staticmethod
-    def click(by_locator):
-        WebDriverWait(DriverControl.driver, 10).until(EC.element_to_be_clickable(by_locator)).click()
+    def click(by_locator,time=6):
+        WebDriverWait(DriverControl.driver, time).until(EC.element_to_be_clickable(by_locator)).click()
 
     @staticmethod
     def click_2(by_locator,time):
@@ -57,7 +57,7 @@ class DriverControl():
             return a.get_attribute('href')
         # this function performs text entry of the passed in text, in a web element whose locator is passed to it.
     @staticmethod
-    def enter_text(by_locator, text,time=10):
+    def enter_text(by_locator, text,time=5):
         return WebDriverWait(DriverControl.driver, time).until(EC.visibility_of_element_located(by_locator)).send_keys(text)
 
         # this function checks if the web element whose locator has been passed to it, is enabled or not and returns

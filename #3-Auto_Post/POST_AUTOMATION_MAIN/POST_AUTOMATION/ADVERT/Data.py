@@ -2,13 +2,13 @@ class Ad_data:
     CHROME_EXECUTABLE_PATH = r'C:\chromedriver\chromedriver.exe'
     CHROME_PROFILE = 'C:\\Users\\rak13\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1'
     LINKS_FILE_NAME = 'linksFile.txt'
-    BASE_URL = "http://www.jpaacanada.com/adverts/add/"
+    BASE_URL = "https://bostonmais.com/adverts/add/"
 
     if BASE_URL in ["https://diariodelhuila.com/clasificados/add/", "https://bostonmais.com/adverts/add/"]:
-        SLEEP = 1
+        SLEEP = 0.5
     else:
         SLEEP = 0
-
+    IMAGE = 1
     EMAIL = "email@email.com"
     PASSWORD = 'PASSWORD'
     CONTACT_PERSON = 'James'
@@ -152,7 +152,6 @@ class Ad_data:
         # That's Will Brinson, highlightingddkfkfdkdfdf Buffalo's defense as a big reason he likes the Bills to bounce back in a big way against their AFC East rivals. Check out Brinson's full rundown of Week 2 picks and best bets, which includes some free props, for more of his projections.
         # '''
     }
-    IMAGE = 3
 
 
 

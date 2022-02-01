@@ -6,7 +6,6 @@ class Locator():
     CONTACT= (By.ID,'adverts_person')
     EMAIL= (By.ID,'adverts_email')
     PHONE= (By.ID,'adverts_phone')
-    # PREVIEW = (By.XPATH,'//input[@class="adverts-button adverts-cancel-unload"]')
     PREVIEW = (By.XPATH,"(//input[@type='submit' and @name='submit'])[1]")
     PREVIEW_XPATH = "(//input[@type='submit' and @name='submit'])[1]"
     PREVIEW_XPATH2= '//input[@class="adverts-button adverts-cancel-unload"]'

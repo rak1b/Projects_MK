@@ -154,19 +154,30 @@ def add_hyperlink(paragraph, text, url):
 
     return hyperlink
 
+def image_hyperlink(image_location,redirected_url):
+    new_paragraph = doc.add_paragraph()
+    new_run = new_paragraph.add_run()
+    redirected_to = new_run.add_picture(image_location, width=Inches(6.0), height=Inches(4.5))
+    r_id = new_paragraph.part.relate_to(redirected_url, docx.opc.constants.RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+    hyperlink = docx.oxml.shared.OxmlElement('a:hlinkClick')
+    hyperlink.set(docx.oxml.shared.qn('r:id'), r_id, )
+    redirected_to._inline.docPr.append(hyperlink)
 
 # heading = doc.add_paragraph().add_run(heading_text, style='headingStyle').bold = True
 heading = writedocx(heading_text,font_bold=True,font_size=24,align='center',style='headStyle',after_spacing=10,font_name='Cambria')
-after_heading = writedocx(after_heading_text,font_bold=True,align='center',font_size=12,style='after_headStyle',after_spacing=20,font_name='Calibri')
+after_heading = writedocx(after_heading_text,color=RGBColor(255, 25, 255),font_bold=True,align='center',font_size=12,style='after_headStyle',after_spacing=20,font_name='Calibri')
 url = add_hyperlink(writedocx('',font_bold=True,align='center',font_size=15,after_spacing=10,style='url1'), Url_Text, Url)
 
-image = writedocx('',font_bold=True,align='center',font_size=12,style='image_textStyle',after_spacing=10)
+# image = writedocx('',font_bold=True,align='center',font_size=12,style='image_textStyle',after_spacing=10)
+# image.add_run().add_picture(image_location,width=Inches(6.0), height=Inches(4.5))
 
+image_hyperlink(image_location,"http://facebook.com")
 url = add_hyperlink(writedocx('',font_bold=True,align='center',font_size=15,after_spacing=20), Url_Text, Url)
 
 description = writedocx(description_text,font_bold=True,align='center',font_size=12,style='descStyle')
 
-image.add_run().add_picture(image_location,width=Inches(6.0), height=Inches(4.5))
+
+
 
 doc.save(docx_file_location)
 
@@ -176,3 +187,12 @@ convert(docx_file_location, pdf_file_location)
 print(f"Files successfully generated in '{output_directory}'")
 
 webbrowser.open(output_directory)  # Opens the output folder.
+
+
+# new_paragraph = doc.add_paragraph()
+# new_run = new_paragraph.add_run()
+# facebook = new_run.add_picture(image_location, width=Inches(6.0))
+# r_id = new_paragraph.part.relate_to('http://facebook.com', docx.opc.constants.RELATIONSHIP_TYPE.HYPERLINK, is_external=True)
+# hyperlink = docx.oxml.shared.OxmlElement('a:hlinkClick')
+# hyperlink.set(docx.oxml.shared.qn('r:id'), r_id, )
+# facebook._inline.docPr.append(hyperlink)
