@@ -18,7 +18,8 @@ output = Path('H:\max') # Important
 # File_name = make_title_format(title='bercelona-psg-live')
 # File_name = make_title(File_name,count=1)
 File_name = 'test'
-heading_text = "[ONLINE] [TeamA] vs [TeamB] Live Stream NCAA Collage Football 02 September 2021 Full HD Coverage."
+heading_text_1_list = ['Live Stream', 'Game live', 'Op game', 'Live Reddit ', 'Live Free On Tv']
+# heading_text_1_list = "[ONLINE] [TeamA] vs [TeamB] Live Stream NCAA Collage Football 02 September 2021 Full HD Coverage."
 after_heading_text = "Welcome To Watch [TeamA] vs. [TeamB]: How to live stream, TV channel, start time for Thursday's NCAA Football game. How to watch [TeamA] vs. [TeamB] football game"
 image_location = '#2-Docs2PDF\index.jpg'
 Url_Text = 'Click Here TO Watch Live'
@@ -39,7 +40,33 @@ PostInfo = {
             3: 'G:\ProjectWorkHere\Projects_MK\#2-Docs2PDF\index3.jpg',
             4: 'https://i.imgur.com/IyC9C8m.jpeg',
             5: 'https://i.imgur.com/eQ2UNSI.jpeg',
-            # 6: '#2-Docs2PDF\index.jpg',
+            6: 'https://source.unsplash.com/random/?football',
+            # 7: '#2-Docs2PDF\index.jpg',
+            # 8: '#2-Docs2PDF\index.jpg',
+            # 9: '#2-Docs2PDF\index.jpg',
+            # 10: '#2-Docs2PDF\index.jpg',
+        },
+        
+        #Make Description unique By adding those lines,otherwise leave it as it is..
+        'FIRST_LINE':'',
+        'MIDDLE_LINE':'',
+        'LAST_LINE':'',
+    },
+    
+     2: {
+        'TeamA': "France",
+        'TeamB': "Norway",
+        'description': '''Enter Your description Here''',
+        'Url_text':'Click Here TO Watch Live',
+        'redirect_url':'https://www.youtube.com/',
+        'file_format': '1video-[randomLD5]-[randomLD5]-[random1]-[random1]-[randomLD3]-[random1]-anything[random5]-[numbers].html',
+        'image_location': {
+            1: 'https://media.istockphoto.com/photos/close-up-of-legs-and-feet-of-football-player-in-blue-socks-and-shoes-picture-id1150952747?k=20&m=1150952747&s=612x612&w=0&h=vreccM0RO2rNp4aLN-mLyBwTfN7sfwvkdkwegzYPrXo=',
+            2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIrvPUQyxbRZ0G4fv5NV_P2rB7fhyFf7Fdzg&usqp=CAU',
+            3: 'G:\ProjectWorkHere\Projects_MK\#2-Docs2PDF\index3.jpg',
+            4: 'https://i.imgur.com/IyC9C8m.jpeg',
+            5: 'https://i.imgur.com/eQ2UNSI.jpeg',
+            6: 'https://source.unsplash.com/random/?football',
             # 7: '#2-Docs2PDF\index.jpg',
             # 8: '#2-Docs2PDF\index.jpg',
             # 9: '#2-Docs2PDF\index.jpg',
@@ -297,8 +324,14 @@ def imageFromWeb(url):
 count = 1
 
 for post_no in range(1, len(PostInfo) + 1):
+    TeamA = PostInfo[post_no]['TeamA']
+    TeamB = PostInfo[post_no]['TeamB']
+    TeamA_ = '-'.join(TeamA.split())
+    TeamB_ = '-'.join(TeamB.split())
     for images in range(1, len(PostInfo[post_no]['image_location']) + 1):
         doc = Document()
+        newdescription = make_description(description_text,TeamA,TeamB)
+
         
         heading = writedocx(heading_text,font_bold=True,font_size=24,align='center',style='headStyle'+random_string(1,5),after_spacing=10,font_name='Cambria')
         after_heading = writedocx(after_heading_text,color=RGBColor(255, 255, 255),font_bold=True,align='center',font_size=12,style='after_headStyle',after_spacing=20,font_name='Calibri')
@@ -320,7 +353,7 @@ for post_no in range(1, len(PostInfo) + 1):
         
         url = add_hyperlink(writedocx('',font_bold=True,align='center',font_size=15,after_spacing=20), PostInfo[post_no]['Url_text'], PostInfo[post_no]['redirect_url'])
 
-        description = writedocx(description_text,font_bold=True,align='center',font_size=12,style='descStyle')
+        description = writedocx(newdescription,font_bold=True,align='center',font_size=12,style='descStyle')
 
         File_name = make_title(PostInfo[post_no]['file_format'], count)
 
