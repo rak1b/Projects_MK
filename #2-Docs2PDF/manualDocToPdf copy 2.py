@@ -12,23 +12,29 @@ from docx2pdf import convert
 from docx.shared import Pt, RGBColor,Inches
 from docx.oxml.ns import qn
 from docx.enum.text import WD_PARAGRAPH_ALIGNMENT
-from Dynamic_Title import random_string,make_title,make_title_format
+
+
 # Provide the Folder path where you want to save the files
 output = Path('H:\max') # Important
-# File_name = make_title_format(title='bercelona-psg-live')
-# File_name = make_title(File_name,count=1)
-File_name = 'test'
-heading_text_1_list = ['Live Stream', 'Game live', 'Op game', 'Live Reddit ', 'Live Free On Tv']
-# heading_text_1_list = "[ONLINE] [TeamA] vs [TeamB] Live Stream NCAA Collage Football 02 September 2021 Full HD Coverage."
-after_heading_text = "Welcome To Watch [TeamA] vs. [TeamB]: How to live stream, TV channel, start time for Thursday's NCAA Football game. How to watch [TeamA] vs. [TeamB] football game"
-image_location = '#2-Docs2PDF\index.jpg'
-Url_Text = 'Click Here TO Watch Live'
+
+#Main Heading
+heading_text = "[ONLINE] [TeamA] [TeamB] [HEADING_TAIL] [LIVESTREAM_WORDS]Live Stream NCAA Collage Football 02 September 2021 Full HD Coverage."
+heading_tail_list = ['Live Stream', 'Game live', 'Op game', 'Live Reddit ', 'Live Free On Tv']
+livestream_word_list = ['livestream', 'Live Hd', 'Add more here']
+heading_color=RGBColor(0, 0, 0)
+
+#Second Heading
+# second_heading_text=''
+second_heading_text = "Welcome To Watch [TeamA] vs. [TeamB]: [SECOND_HEADING_TAIL] [SECOND_LIVESTREAM_WORDS] How to live stream, TV channel, start time for Thursday's NCAA Football game. How to watch [TeamA] vs. [TeamB] football game"
+second_heading_tail_list = ['Live Stream', 'Game live', 'Op game', 'Live Reddit ', 'Live Free On Tv']
+second_livestream_word_list = ['livestream', 'Live Hd', 'Add more here']
+second_heading_color=RGBColor(255, 5, 255)
 
 
 
 PostInfo = {
     1: {
-        'TeamA': "Germany",
+        'TeamA': "Germany vs",
         'TeamB': "Italy",
         'description': '''Enter Your description Here''',
         'Url_text':'Click Here TO Watch Live',
@@ -48,13 +54,13 @@ PostInfo = {
         },
         
         #Make Description unique By adding those lines,otherwise leave it as it is..
-        'FIRST_LINE':'',
-        'MIDDLE_LINE':'',
-        'LAST_LINE':'',
+        'FIRST_LINE':'Hello',
+        'MIDDLE_LINE':'Welcome',
+        'LAST_LINE':'Bye',
     },
     
      2: {
-        'TeamA': "France",
+        'TeamA': "France v",
         'TeamB': "Norway",
         'description': '''Enter Your description Here''',
         'Url_text':'Click Here TO Watch Live',
@@ -207,19 +213,52 @@ def make_title(title, count):
             title = title.replace(f'[{check_randomLD[num]}]', random_string(False,check_randomLD[num][8]),1)
 
     return title
-def make_description(description,teamA,teamB):
+def make_description(description,post_no,teamA,teamB):
     if '[FIRST_LINE]' in description:
-        description = description.replace('[FIRST_LINE]',random.choice(description_first_list),1)
+        if len(PostInfo[post_no]['FIRST_LINE'])==0:
+            description = description.replace('[FIRST_LINE]',random.choice(description_first_list),1)
+        else:
+            description = description.replace('[FIRST_LINE]',PostInfo[post_no]['FIRST_LINE'],1)
+            
     if '[LAST_LINE]' in description:
-        description = description.replace('[LAST_LINE]',random.choice(description_end_list),1)
+        if len(PostInfo[post_no]['LAST_LINE'])==0:
+            description = description.replace('[LAST_LINE]',random.choice(description_end_list),1)
+        else:
+            description = description.replace('[LAST_LINE]',PostInfo[post_no]['LAST_LINE'],1)
     if '[MIDDLE_LINE]' in description:
-        description = description.replace('[MIDDLE_LINE]',random.choice(description_end_list),1)
+        if len(PostInfo[post_no]['MIDDLE_LINE'])==0:
+            description = description.replace('[MIDDLE_LINE]',random.choice(description_end_list),1)
+        else:
+            description = description.replace('[MIDDLE_LINE]',PostInfo[post_no]['MIDDLE_LINE'],1)
     if '[TeamA]' in description:
         description = description.replace('[TeamA]',teamA)
     if '[TeamB]' in description:
         description = description.replace('[TeamB]',teamB)
     return description
 
+
+
+def make_heading(heading,teamA,teamB):
+    if '[HEADING_TAIL]' in heading:
+        heading = heading.replace('[HEADING_TAIL]',random.choice(heading_tail_list),1)
+    if '[LIVESTREAM_WORDS]' in heading:
+        heading = heading.replace('[LIVESTREAM_WORDS]',random.choice(livestream_word_list),1)
+    if '[TeamA]' in heading:
+        heading = heading.replace('[TeamA]',teamA)
+    if '[TeamB]' in heading:
+        heading = heading.replace('[TeamB]',teamB)
+    return heading
+
+def make_second_heading(heading,teamA,teamB):
+    if '[SECOND_HEADING_TAIL]' in heading:
+        heading = heading.replace('[SECOND_HEADING_TAIL]',random.choice(second_heading_tail_list),1)
+    if '[SECOND_LIVESTREAM_WORDS]' in heading:
+        heading = heading.replace('[SECOND_LIVESTREAM_WORDS]',random.choice(second_livestream_word_list),1)
+    if '[TeamA]' in heading:
+        heading = heading.replace('[TeamA]',teamA)
+    if '[TeamB]' in heading:
+        heading = heading.replace('[TeamB]',teamB)
+    return heading
 
 
 
@@ -330,11 +369,12 @@ for post_no in range(1, len(PostInfo) + 1):
     TeamB_ = '-'.join(TeamB.split())
     for images in range(1, len(PostInfo[post_no]['image_location']) + 1):
         doc = Document()
-        newdescription = make_description(description_text,TeamA,TeamB)
-
+        newdescription = make_description(description_text,post_no,TeamA,TeamB)
+        newHeading = make_heading(heading_text,TeamA,TeamB)
+        newSecondheading=make_second_heading(second_heading_text,TeamA,TeamB)
         
-        heading = writedocx(heading_text,font_bold=True,font_size=24,align='center',style='headStyle'+random_string(1,5),after_spacing=10,font_name='Cambria')
-        after_heading = writedocx(after_heading_text,color=RGBColor(255, 255, 255),font_bold=True,align='center',font_size=12,style='after_headStyle',after_spacing=20,font_name='Calibri')
+        heading = writedocx(newHeading,color=heading_color,font_bold=True,font_size=24,align='center',style='headStyle'+random_string(1,5),after_spacing=10,font_name='Cambria')
+        after_heading = writedocx(newSecondheading,color=second_heading_color,font_bold=True,align='center',font_size=12,style='after_headStyle',after_spacing=20,font_name='Calibri')
         url = add_hyperlink(writedocx('',font_bold=True,align='center',font_size=15,after_spacing=10,style='url1'), PostInfo[post_no]['Url_text'], PostInfo[post_no]['redirect_url'])
         # binary_img = imageFromWeb('https://i.imgur.com/IyC9C8m.jpeg')
         image_link =PostInfo[post_no]['image_location'][images] 
