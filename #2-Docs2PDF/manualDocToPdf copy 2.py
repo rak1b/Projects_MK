@@ -354,6 +354,15 @@ def imageFromWeb(url):
     return BytesIO(response.content) 
 
 
+
+
+
+
+
+
+
+
+
 # ------------------------------------
 #Writing into to docs file from here
 # ------------------------------------
