@@ -1,3 +1,4 @@
+from PIL import Image
 import webbrowser
 from pathlib import Path
 import docx
@@ -354,8 +355,26 @@ def imageFromWeb(url):
     return BytesIO(response.content) 
 
 
+def imageFromWeb2(url):
+    import urllib.request
+    from PIL import Image
+    
+    urllib.request.urlretrieve(url,'filename.jpg')
+    # img = Image.open('filename.jpg')
+    # return img
 
+def add_play_button(back,button):
+    background = Image.open(back)
+    button = Image.open(button)
 
+    button = button.resize((300, 300), Image.ANTIALIAS)
+    background = background.resize((1440, 900), Image.ANTIALIAS)
+    background_w, background_h = background.size
+    button_w, button_h = button.size
+
+    offset = (( background_w - button_w ) // 2, (background_h - button_h  ) // 2)
+    background.paste(button, offset,button)
+    background.save('edited.jpg')
 
 
 
@@ -391,12 +410,18 @@ for post_no in range(1, len(PostInfo) + 1):
         # binary_img = imageFromWeb('https://i.imgur.com/IyC9C8m.jpeg')
         image_link =PostInfo[post_no]['image_location'][images] 
         try:
-            image_hyperlink(image_link,PostInfo[post_no]['redirect_url'])
+            add_play_button(image_link,'images/logo.png')
+            image_hyperlink('edited.jpg',PostInfo[post_no]['redirect_url'])
+            
         except:
             try:
-                image_hyperlink(imageFromWeb(image_link),PostInfo[post_no]['redirect_url'])
+                imageFromWeb2(image_link)
+                add_play_button('filename.jpg','images/logo.png')
+                image_hyperlink('edited.jpg',PostInfo[post_no]['redirect_url'])
+            # image_hyperlink(imageFromWeb2(image_link),PostInfo[post_no]['redirect_url'])
             except:
-                print(f"{image_link} not working ,Please download this image and try again")
+                print(f"{image_link} not working ,Please try another image")
+                
                 continue
         # image_hyperlink(PostInfo[post_no]['image_location'][images],PostInfo[post_no]['redirect_url'])
         
