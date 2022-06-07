@@ -12,6 +12,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 import traceback
 from multiprocessing import Process
+import json
+
 import re
 import random
 import string
@@ -28,17 +30,17 @@ driver = webdriver.Chrome(service=Service(
 # driver.get("https://www.google.com")
 driver.maximize_window()
 
-main_url = "https://www.stopthegrind.org"
-main_url = "https://www.stmpdxschool.org/"
-# main_url = "https://www.aptis-translation-interpreting.org/"
-# main_url = "https://www.lomaseca.com"
-url = f"{main_url}/account/my-account"
+BASE_URL = "https://www.stopthegrind.org"
+BASE_URL = "https://www.stmpdxschool.org/"
+# BASE_URL = "https://www.aptis-translation-interpreting.org/"
+# BASE_URL = "https://www.lomaseca.com"
+url = f"{BASE_URL}/account/my-account"
 email = "mrxoiffsxalqfqeeua@kvhrr.com"
 password = "mrxoiffsxalqfqeeua@kvhrr.com"
-my_profile_url = f"{main_url}/profile/{email.split('@')[0]}"
+my_profile_url = f"{BASE_URL}/profile/{email.split('@')[0]}"
 
 
-heading_text = "[ONLINE] [TeamA] [TeamB] [HEADING_TAIL] [LIVESTREAM_WORDS]Live Stream NCAA Collage Football 02 September 2021 Full HD Coverage."
+heading_text = "[ONLINE] [TeamA] [TeamB] [HEADING_TAIL] [LIVESTREAM_WORDS]Live Stream NCAA Collage Football 02 September 2021 Full HD Coverage"
 heading_tail_list = ['Live Stream', 'Game live',
                      'Op game', 'Live Reddit ', 'Live Free On Tv']
 livestream_word_list = ['livestream', 'Live Hd', 'Add more here']
@@ -192,82 +194,143 @@ The Eagles are not going to be an easy game for the Rebels, and if you are looki
 
 '''
 
+# status = {
+#         'url': "url",
+#         'username': 'username',
+#         'name_update': 1,
+#         'url_update': 1,
+#         'description_update': 0,
+#         'description_url_update': 0,
+
+
+#     }
+
+status = {
+    }
+
 
 def CheckLogin():
-        driver.get(url)
-        try:
-            time.sleep(3)
-
-            login_button = driver.find_element(
-                by=By.XPATH, value="//*[@class='_3VCEv']")
-            login_button.click()
-
-            time.sleep(1)
-
-            login_with_email_button = driver.find_element(
-                by=By.XPATH, value="//*[@class='_1fbEI']")
-            login_with_email_button.click()
-
-            time.sleep(1)
-
-            email_inp = driver.find_element(
-                by=By.XPATH, value='//input[contains(@id,"emailInput")]')
-            email_inp.send_keys(email)
-
-            time.sleep(1)
-            pas_inp = driver.find_element(
-                by=By.XPATH, value='//input[contains(@id,"passwordInput")]')
-            pas_inp.send_keys(password)
-
-            time.sleep(1)
-
-            login_button = driver.find_element(
-                by=By.XPATH, value="//*[@class='_1fbEI']")
-            login_button.click()
-            time.sleep(2)
-        except:
-            pass
-
-
-def update_profile(title):
-    #     profile_name_input = driver.find_element(by=By.ID, value="display-name-id")
+    driver.get(url)
     try:
-        time.sleep(1)
-        profile_name_input = driver.find_element(by=By.ID, value="display-name-id")
-        profile_name_input.click()
-        driver.execute_script(f"document.getElementById('display-name-id').value=''")
-        profile_name_input.send_keys("hellothere")
+        time.sleep(3)
 
-        profile_update = driver.find_element(by=By.XPATH, value="(//button[@data-hook='MyAccount-saveAccountButton'])[2]//span")
-        profile_update.click()
+        login_button = driver.find_element(
+            by=By.XPATH, value="//*[@class='_3VCEv']")
+        login_button.click()
+
+        time.sleep(1)
+
+        login_with_email_button = driver.find_element(
+            by=By.XPATH, value="//*[@class='_1fbEI']")
+        login_with_email_button.click()
+
+        time.sleep(1)
+
+        email_inp = driver.find_element(
+            by=By.XPATH, value='//input[contains(@id,"emailInput")]')
+        email_inp.send_keys(email)
+
+        time.sleep(1)
+        pas_inp = driver.find_element(
+            by=By.XPATH, value='//input[contains(@id,"passwordInput")]')
+        pas_inp.send_keys(password)
+
+        time.sleep(1)
+
+        login_button = driver.find_element(
+            by=By.XPATH, value="//*[@class='_1fbEI']")
+        login_button.click()
+        time.sleep(2)
     except:
         pass
 
-def edit_profile_url(title):
-    time.sleep(1)
-    url_update_open = driver.find_element(by=By.XPATH, value="(//div[@class='s3Tfmf'])[1]")
-    url_update_open.click()
-    time.sleep(1)
 
-    url_edit_btn = driver.find_element(by=By.XPATH, value="//span[text()='Edit URL']")
-    url_edit_btn.click()
-    time.sleep(1)
+def update_profile(username):
+    #     profile_name_input = driver.find_element(by=By.ID, value="display-name-id")
+    try:
+        time.sleep(1)
+        profile_name_input = driver.find_element(
+            by=By.ID, value="display-name-id")
+        profile_name_input.click()
+        driver.execute_script(
+            f"document.getElementById('display-name-id').value=''")
+        profile_name_input.send_keys(username)
 
-    url_submit_input = driver.find_element(by=By.XPATH, value="//input[contains(@id,'label-for-id')]")
-    url_submit_input.click()
-    time.sleep(1)
+        profile_update = driver.find_element(
+            by=By.XPATH, value="(//button[@data-hook='MyAccount-saveAccountButton'])[2]//span")
+        profile_update.click()
+        sleep(3)
+    except:
+        pass
+    
 
-    driver.execute_script(f"document.getElementById('label-for-id27').value=''")
-    time.sleep(1)
 
-    url_submit_input.send_keys('hellothere')
-    time.sleep(1)
-    url_save = driver.find_element(by=By.XPATH, value="//button//span[text()='Save']")
-    url_save.click()
+def edit_profile_url(username):
+    print("_____________________")
+    print(username)
+    print("_____________________")
+    try:
+        time.sleep(1)
+        url_update_open = driver.find_element(
+            by=By.XPATH, value="(//div[@class='s3Tfmf'])[1]")
+        url_update_open.click()
+        time.sleep(1)
+
+        url_edit_btn = driver.find_element(
+            by=By.XPATH, value="//span[text()='Edit URL']")
+        url_edit_btn.click()
+        time.sleep(1)
+
+        url_submit_input = driver.find_element(
+            by=By.XPATH, value="//input[contains(@id,'label-for-id')]")
+        url_submit_input.click()
+        time.sleep(2)
+
+        driver.execute_script(
+            f"document.querySelector('[id^=label-for-id]').value=''")
+        time.sleep(2)
+
+       
+
+        url_submit_input.send_keys(username)
+        time.sleep(1)
+        url_save = driver.find_element(
+            by=By.XPATH, value="//button//span[text()='Save']")
+        url_save.click()
+        sleep(3)
+    except:
+        pass
+
+
+
+def edit_about(username,description):
+    sleep(1)
+    driver.get(f"{BASE_URL}/profile/{username}/profile")
+    # open_edit = driver.find_element(by=By.XPATH, value="//div[@data-hook='Profile-AboutOverlay']")
+    sleep(3)
+    open_edit = WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "//div[@data-hook='Profile-AboutOverlay']"))
+        )
+    sleep(1)
+
+    open_edit.click()
+  
+        
+
+    input = WebDriverWait(driver, 15).until(
+        EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']"))
+    )
+
+    
+    input.send_keys(description)
+    sleep(0.5)
+    driver.find_element(by=By.XPATH, value="//button[@data-hook='InputDialog-primaryButton']").click()
+
 
     
 
-#     
+    # driver.execute_script(
+    #         f'''document.getElementsByClassName("public-DraftStyleDefault-block public-DraftStyleDefault-ltr")[0].innerHTML = "<h2>Hello</h2>" ''')
 
 
 def random_string(onlyString, no_of_string):
@@ -293,6 +356,7 @@ def make_title(title, count):
                 False, check_randomLD[num][8]), 1)
 
     return title
+
 
 
 def make_description(description, post_no, teamA, teamB):
@@ -353,9 +417,30 @@ def make_second_heading(heading, teamA, teamB):
     return heading
 
 
+  
+# f = open('status.json')
+  
+# data = json.load(f)
+  
+# for i in data:
+#     print(i)
+  
+# f.close()
+
+TeamA = PostInfo[1]['TeamA']
+TeamB = PostInfo[1]['TeamB']
+username =  make_heading(heading_text,TeamA,TeamB)
+username = username.replace(" ","-").replace("[","").replace("]","")[0:250]
+description = make_description(description_text,1,TeamA,TeamB)
 CheckLogin()
-update_profile("new_title")
-edit_profile_url("new_title")
+update_profile(username)
+edit_profile_url(username)
+edit_about(username,description)
+
+print(status)
+
+with open('status.json', 'w', encoding='utf-8') as f:
+    f.write(json.dumps(status, ensure_ascii=False))
 
 time.sleep(205)
 driver.close()
