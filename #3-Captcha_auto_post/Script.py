@@ -13,7 +13,8 @@ from selenium.webdriver.common.keys import Keys
 import traceback
 from multiprocessing import Process
 import json
-
+from selenium.webdriver.common.keys import Keys
+import pyperclip as pc
 import re
 import random
 import string
@@ -29,15 +30,14 @@ driver = webdriver.Chrome(service=Service(
     ChromeDriverManager().install()), options=options)
 # driver.get("https://www.google.com")
 driver.maximize_window()
-
-BASE_URL = "https://www.stopthegrind.org"
-BASE_URL = "https://www.stmpdxschool.org/"
+url_list = []
+# BASE_URL = "https://www.stopthegrind.org"
+# BASE_URL = "https://www.stmpdxschool.org/"
 # BASE_URL = "https://www.aptis-translation-interpreting.org/"
-# BASE_URL = "https://www.lomaseca.com"
-url = f"{BASE_URL}/account/my-account"
 email = "mrxoiffsxalqfqeeua@kvhrr.com"
 password = "mrxoiffsxalqfqeeua@kvhrr.com"
-my_profile_url = f"{BASE_URL}/profile/{email.split('@')[0]}"
+
+# my_profile_url = f"{BASE_URL}/profile/{email.split('@')[0]}"
 
 
 heading_text = "[ONLINE] [TeamA] [TeamB] [HEADING_TAIL] [LIVESTREAM_WORDS]Live Stream NCAA Collage Football 02 September 2021 Full HD Coverage"
@@ -58,23 +58,8 @@ PostInfo = {
         'TeamA': "Germany vs",
         'TeamB': "Italy",
         'description': '''Enter Your description Here''',
-        'Url_text': 'Click Here TO Watch Live',
-        'redirect_url': 'https://www.youtube.com/',
-        'file_format': '1video-[randomLD5]-[randomLD5]-[random1]-[random1]-[randomLD3]-[random1]-anything[random5]-[numbers]',
-        'image_location': {
-            1: 'https://image.shutterstock.com/image-photo/two-soccer-football-player-dribbling-260nw-1099448984.jpg',
-            2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIrvPUQyxbRZ0G4fv5NV_P2rB7fhyFf7Fdzg&usqp=CAU',
-            3: 'G:\ProjectWorkHere\Projects_MK\#2-Docs2PDF\index3.jpg',
-            4: 'https://i.imgur.com/IyC9C8m.jpeg',
-            5: 'https://cdn-wp.thesportsrush.com/2019/09/GettyImages-1157821332.jpg',
-            6: 'https://source.unsplash.com/random/?football',
-            # 7: '#2-Docs2PDF\index.jpg',
-            # 8: '#2-Docs2PDF\index.jpg',
-            # 9: '#2-Docs2PDF\index.jpg',
-            # 10: '#2-Docs2PDF\index.jpg',
-        },
+        'url': "https://www.thingstodocincinnati.com",
 
-        # Make Description unique By adding those lines,otherwise leave it as it is..
         'FIRST_LINE': 'Hello',
         'MIDDLE_LINE': 'Welcome',
         'LAST_LINE': 'Bye',
@@ -84,26 +69,18 @@ PostInfo = {
         'TeamA': "France v",
         'TeamB': "Norway",
         'description': '''''',
-        'Url_text': 'Click Here TO Watch Live',
-        'redirect_url': 'https://www.youtube.com/',
-        'file_format': '1video-[randomLD5]-[randomLD5]-[random1]-[random1]-[randomLD3]-[random1]-anything[random5]-[numbers]',
-        'image_location': {
-            1: 'https://media.istockphoto.com/photos/close-up-of-legs-and-feet-of-football-player-in-blue-socks-and-shoes-picture-id1150952747?k=20&m=1150952747&s=612x612&w=0&h=vreccM0RO2rNp4aLN-mLyBwTfN7sfwvkdkwegzYPrXo=',
-            2: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIrvPUQyxbRZ0G4fv5NV_P2rB7fhyFf7Fdzg&usqp=CAU',
-            3: 'G:\ProjectWorkHere\Projects_MK\#2-Docs2PDF\index3.jpg',
-            4: 'https://i.imgur.com/IyC9C8m.jpeg',
-            5: 'https://i.imgur.com/eQ2UNSI.jpeg',
-            6: 'https://source.unsplash.com/random/?football',
-            # 7: '#2-Docs2PDF\index.jpg',
-            # 8: '#2-Docs2PDF\index.jpg',
-            # 9: '#2-Docs2PDF\index.jpg',
-            # 10: '#2-Docs2PDF\index.jpg',
-        },
-
-        # Make Description unique By adding those lines,otherwise leave it as it is..
-        'FIRST_LINE': '',
-        'MIDDLE_LINE': '',
-        'LAST_LINE': '',
+        'url': "https://www.lomaseca.com",
+        'FIRST_LINE': '--one--',
+        'MIDDLE_LINE': '--two===',
+        'LAST_LINE': '--three--',
+    },  3: {
+        'TeamA': "France v",
+        'TeamB': "Norway",
+        'description': '''''',
+        'url': 'https://www.stmpdxschool.org',
+        'FIRST_LINE': '--one--',
+        'MIDDLE_LINE': '--two===',
+        'LAST_LINE': '--three--',
     },
 }
 
@@ -193,23 +170,13 @@ The Eagles are not going to be an easy game for the Rebels, and if you are looki
 [LAST_LINE]
 
 '''
+ 
 
-# status = {
-#         'url': "url",
-#         'username': 'username',
-#         'name_update': 1,
-#         'url_update': 1,
-#         'description_update': 0,
-#         'description_url_update': 0,
+ 
 
+def CheckLogin(url):
+    url = f"{url}/account/my-account"
 
-#     }
-
-status = {
-    }
-
-
-def CheckLogin():
     driver.get(url)
     try:
         time.sleep(3)
@@ -242,6 +209,8 @@ def CheckLogin():
         login_button.click()
         time.sleep(2)
     except:
+        print(traceback.format_exc())
+
         pass
 
 
@@ -261,6 +230,8 @@ def update_profile(username):
         profile_update.click()
         sleep(3)
     except:
+        print(traceback.format_exc())
+
         pass
     
 
@@ -299,33 +270,41 @@ def edit_profile_url(username):
         url_save.click()
         sleep(3)
     except:
+        print(traceback.format_exc())
         pass
 
 
 
-def edit_about(username,description):
-    sleep(1)
-    driver.get(f"{BASE_URL}/profile/{username}/profile")
-    # open_edit = driver.find_element(by=By.XPATH, value="//div[@data-hook='Profile-AboutOverlay']")
-    sleep(3)
-    open_edit = WebDriverWait(driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, "//div[@data-hook='Profile-AboutOverlay']"))
-        )
-    sleep(1)
+def edit_about(username,description,url):
+    try:
+        sleep(1)
+        driver.get(f"{url}/profile/{username}/profile")
+        # open_edit = driver.find_element(by=By.XPATH, value="//div[@data-hook='Profile-AboutOverlay']")
+        sleep(3)
+        open_edit = WebDriverWait(driver, 20).until(
+                EC.element_to_be_clickable((By.XPATH, "//div[@data-hook='Profile-AboutOverlay']"))
+            )
+        sleep(1)
 
-    open_edit.click()
-  
-        
-
-    input = WebDriverWait(driver, 15).until(
-        EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']"))
-    )
+        open_edit.click()
+        sleep(2)
 
     
-    input.send_keys(description)
-    sleep(0.5)
-    driver.find_element(by=By.XPATH, value="//button[@data-hook='InputDialog-primaryButton']").click()
 
+        input = WebDriverWait(driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@contenteditable='true']"))
+        )
+
+        input.send_keys(Keys.CONTROL, 'a')  
+        input.send_keys(Keys.CONTROL, 'x')
+        pc.copy(description) 
+        input.send_keys(Keys.CONTROL, 'v')
+        sleep(0.5)
+        driver.find_element(by=By.XPATH, value="//button[@data-hook='InputDialog-primaryButton']").click()
+    except:
+        print(traceback.format_exc())
+
+        pass
 
     
 
@@ -338,24 +317,6 @@ def random_string(onlyString, no_of_string):
         return ''.join(random.choice(string.ascii_lowercase) for i in range(int(no_of_string)))
     return ''.join(random.choice(string.ascii_lowercase + string.digits) for i in range(int(no_of_string)))
 
-
-def make_title(title, count):
-    if '[numbers]' in title:
-        if count < 10:
-            title = title.replace('[numbers]', f'0{str(count)}')
-        title = title.replace('[numbers]', str(count))
-    if re.findall("random[0-9]", title):
-        check_random = re.findall("random[0-9]", title)
-        for num in range(len(check_random)):
-            title = title.replace(f'[{check_random[num]}]', random_string(
-                True, check_random[num][6]), 1)
-    if re.findall("randomLD[0-9]", title):
-        check_randomLD = re.findall("randomLD[0-9]", title)
-        for num in range(len(check_randomLD)):
-            title = title.replace(f'[{check_randomLD[num]}]', random_string(
-                False, check_randomLD[num][8]), 1)
-
-    return title
 
 
 
@@ -417,30 +378,25 @@ def make_second_heading(heading, teamA, teamB):
     return heading
 
 
-  
-# f = open('status.json')
-  
-# data = json.load(f)
-  
-# for i in data:
-#     print(i)
-  
-# f.close()
+for i in range(1,len(PostInfo)+1):
+    TeamA = PostInfo[i]['TeamA']
+    TeamB = PostInfo[i]['TeamB']
+    URL = PostInfo[i]['url']
+    username =  make_heading(heading_text,TeamA,TeamB)
+    username = username.replace(" ","-").replace("[","").replace("]","")[0:250]
+    profile_url = URL+"/profile/"+username+"/profile"
+    url_list.append(profile_url)
+    description = make_description(description_text,1,TeamA,TeamB)
+    CheckLogin(URL)
+    update_profile(username)
+    edit_profile_url(username)
+    edit_about(username,description,URL)
 
-TeamA = PostInfo[1]['TeamA']
-TeamB = PostInfo[1]['TeamB']
-username =  make_heading(heading_text,TeamA,TeamB)
-username = username.replace(" ","-").replace("[","").replace("]","")[0:250]
-description = make_description(description_text,1,TeamA,TeamB)
-CheckLogin()
-update_profile(username)
-edit_profile_url(username)
-edit_about(username,description)
-
-print(status)
-
-with open('status.json', 'w', encoding='utf-8') as f:
-    f.write(json.dumps(status, ensure_ascii=False))
-
-time.sleep(205)
+# jsonString = json.dumps(url_list)
+# jsonFile = open("status.json", "w")
+# jsonFile.write(jsonString)
+# jsonFile.close()
+with open('links.json', 'w', encoding='utf-8') as f:
+    json.dump(url_list, f, ensure_ascii=False, indent=4)
+time.sleep(20)
 driver.close()
